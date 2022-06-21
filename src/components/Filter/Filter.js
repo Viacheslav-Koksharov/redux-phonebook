@@ -1,9 +1,12 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getFilter } from "../../redux/selectors";
 import { changeFilter } from "../../redux/actions";
 import s from "../Filter/Filter.module.css";
 
-const Filter = ({ value, onFilterContact }) => {
+const Filter = () => {
+  const value = useSelector(getFilter);
+  const dispatch = useDispatch();
   return (
     <form className={s.list}>
       <label className={s.label} htmlFor="input">
@@ -13,17 +16,18 @@ const Filter = ({ value, onFilterContact }) => {
           type="text"
           id="input"
           value={value}
-          onChange={onFilterContact}
+          onChange={(e) => dispatch(changeFilter(e.target.value))}
         />
       </label>
     </form>
   );
 };
 
-const mapStateToProps = (state) => ({
-  value: state.contacts.filter,
-});
-const mapDispatchToProps = (dispatch) => ({
-  onFilterContact: (e) => dispatch(changeFilter(e.target.value)),
-});
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+// const mapStateToProps = (state) => ({
+//   value: state.contacts.filter,
+// });
+// const mapDispatchToProps = (dispatch) => ({
+//   onFilterContact: (e) => dispatch(changeFilter(e.target.value)),
+// });
+// export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default Filter;
